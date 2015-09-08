@@ -487,7 +487,7 @@ class question_turmultiplechoice_qtype extends default_questiontype {
         return array_values($QsT);
     }
 
-    function returnQnumber(&$qid) {
+    function returnQnumber($qid) {
         $qnumbers = array();
         $qnumbers = $this->question_numbering();
         $key = array_search($qid, $qnumbers);
@@ -538,7 +538,7 @@ class question_turmultiplechoice_qtype extends default_questiontype {
             $questionspeak = $this->user_get_sound($question->options->questionsound, $question->category, $question->options->autoplay, 0, true);
         }
 
-        $qnumbering = $this->returnQnumber($question->id);
+        $qnumbering = $this->returnQnumber(&$question->id);
         $zoom = $this->plugin_baseurl() . '/images/speaker.jpg';
 
         $thumb_w = '428';
