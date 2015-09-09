@@ -127,8 +127,8 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
     // Migrate assets
     if ($oldversion < 2013010101) {
 
-        $audiofolder = $CFG->dataroot . '/' . $CFG->tursound . '/audio/';
-        $imagefolder = $CFG->dataroot . '/' . $CFG->turimage . '/image/';
+        $audiofolder = $CFG->olddataroot . '/' . $CFG->tursound . '/audio/';
+        $imagefolder = $CFG->olddataroot . '/' . $CFG->turimage . '/image/';
         $fs = get_file_storage();
         $file_record = array(
             'contextid' => 1,
