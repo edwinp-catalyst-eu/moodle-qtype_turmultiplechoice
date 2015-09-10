@@ -21,9 +21,7 @@
  * @subpackage turmultiplechoice
  */
 
-
 defined('MOODLE_INTERNAL') || die();
-
 
 /**
  * Upgrade code for the multiple choice question type.
@@ -124,7 +122,8 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
     // Moodle v2.2.0 release upgrade line
     // Put any upgrade step following this
 
-    // Migrate assets
+    // Migrate assets (also on behalf of question types 'turprove' and 'turtipskupon')
+    // as the field is dropped in the succeeding step
     if ($oldversion < 2013010101) {
 
         $audiofolder = $CFG->olddataroot . '/' . $CFG->tursound . '/audio/';
@@ -158,8 +157,10 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
         $sql = "SELECT qa.id, qa.answersound, qa.feedbacksound
                   FROM {question_answers} qa
                   JOIN {question} q ON q.id = qa.question
-                 WHERE q.qtype = ?";
-        $params = array('turmultiplechoice');
+                 WHERE q.qtype = ?
+                    OR q.qtype = ?
+                    OR q.qtype = ?";
+        $params = array('turmultiplechoice', 'turprove', 'turtipskupon');
         $answers = $DB->get_records_sql($sql, $params);
 
         foreach ($answers as $answer) {
