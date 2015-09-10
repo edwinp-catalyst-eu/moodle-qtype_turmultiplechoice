@@ -24,6 +24,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qtype_turmultiplechoice';
-$plugin->version   = 2013010102;
+$plugin->version   = 2013010101;
 $plugin->requires  = 2011033010;
 $plugin->maturity  = MATURITY_BETA;

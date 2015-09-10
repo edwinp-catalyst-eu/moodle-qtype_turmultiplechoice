@@ -122,8 +122,7 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
     // Moodle v2.2.0 release upgrade line
     // Put any upgrade step following this
 
-    // Migrate assets (also on behalf of question types 'turprove' and 'turtipskupon')
-    // as the field is dropped in the succeeding step
+    // Migrate assets
     if ($oldversion < 2013010101) {
 
         $audiofolder = $CFG->olddataroot . '/' . $CFG->tursound . '/audio/';
@@ -134,13 +133,13 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
             'filepath' => '/'
         );
 
+        // Question sounds first, then answer sounds
+        // Just do the question sounds for this question type
         $sql = "SELECT q.id, qtm.questionsound
                   FROM {question} q
                   JOIN {question_turmultiplechoice} qtm ON qtm.question = q.id
-                 WHERE q.qtype = ?
-                    OR q.qtype = ?
-                    OR q.qtype = ?";
-        $params = array('turmultiplechoice', 'turprove', 'turtipskupon');
+                 WHERE q.qtype = ?";
+        $params = array('turmultiplechoice');
         $questions = $DB->get_records_sql($sql, $params);
 
         foreach ($questions as $question) {
@@ -157,6 +156,10 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
             }
         }
 
+        // Question sounds done, answer sounds next.
+        // Do answer sounds for question types 'turprove' and 'turtipskupon' also
+        // as the question_answers.answersound and question_answers.feedbacksound
+        // fields are dropped now also
         $sql = "SELECT qa.id, qa.answersound, qa.feedbacksound
                   FROM {question_answers} qa
                   JOIN {question} q ON q.id = qa.question
@@ -189,14 +192,10 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
             }
         }
 
-        // turmultiplechoice savepoint reached
-        upgrade_plugin_savepoint(true, 2013010101, 'qtype', 'turmultiplechoice');
-    }
-
-    if ($oldversion < 2013010102) {
+        // Define table question_answers.
+        $table = new xmldb_table('question_answers');
 
         // Define field answersound to be dropped from question_answers.
-        $table = new xmldb_table('question_answers');
         $field = new xmldb_field('answersound');
 
         // Conditionally launch drop field answersound.
@@ -213,7 +212,7 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
         }
 
         // turmultiplechoice savepoint reached
-        upgrade_plugin_savepoint(true, 2013010102, 'qtype', 'turmultiplechoice');
+        upgrade_plugin_savepoint(true, 2013010101, 'qtype', 'turmultiplechoice');
     }
 
     return true;
