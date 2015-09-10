@@ -127,7 +127,6 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
     if ($oldversion < 2013010101) {
 
         $audiofolder = $CFG->olddataroot . '/' . $CFG->tursound . '/audio/';
-        $imagefolder = $CFG->olddataroot . '/' . $CFG->turimage . '/image/';
         $fs = get_file_storage();
         $file_record = array(
             'contextid' => 1,
@@ -138,8 +137,10 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
         $sql = "SELECT q.id, qtm.questionsound
                   FROM {question} q
                   JOIN {question_turmultiplechoice} qtm ON qtm.question = q.id
-                 WHERE q.qtype = ?";
-        $params = array('turmultiplechoice');
+                 WHERE q.qtype = ?
+                    OR q.qtype = ?
+                    OR q.qtype = ?";
+        $params = array('turmultiplechoice', 'turprove', 'turtipskupon');
         $questions = $DB->get_records_sql($sql, $params);
 
         foreach ($questions as $question) {
@@ -147,11 +148,13 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
             $file_record['itemid'] = $question->id;
 
             $filename = substr($question->questionsound, 6);
-            $file_record['filearea'] = 'questionsound';
-            $file_record['filename'] = $filename;
-            $file_record['timecreated'] = time();
-            $file_record['timemodified'] = time();
-            $fs->create_file_from_pathname($file_record, $audiofolder . $filename);
+            if (file_exists($audiofolder . $filename)) {
+                $file_record['filearea'] = 'questionsound';
+                $file_record['filename'] = $filename;
+                $file_record['timecreated'] = time();
+                $file_record['timemodified'] = time();
+                $fs->create_file_from_pathname($file_record, $audiofolder . $filename);
+            }
         }
 
         $sql = "SELECT qa.id, qa.answersound, qa.feedbacksound
@@ -168,18 +171,22 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
             $file_record['itemid'] = $answer->id;
 
             $filename = substr($answer->answersound, 6);
-            $file_record['filearea'] = 'answersound';
-            $file_record['filename'] = $filename;
-            $file_record['timecreated'] = time();
-            $file_record['timemodified'] = time();
-            $fs->create_file_from_pathname($file_record, $audiofolder . $filename);
+            if (file_exists($audiofolder . $filename)) {
+                $file_record['filearea'] = 'answersound';
+                $file_record['filename'] = $filename;
+                $file_record['timecreated'] = time();
+                $file_record['timemodified'] = time();
+                $fs->create_file_from_pathname($file_record, $audiofolder . $filename);
+            }
 
             $filename = substr($answer->feedbacksound, 6);
-            $file_record['filearea'] = 'feedbacksound';
-            $file_record['filename'] = $filename;
-            $file_record['timecreated'] = time();
-            $file_record['timemodified'] = time();
-            $fs->create_file_from_pathname($file_record, $audiofolder . $filename);
+            if (file_exists($audiofolder . $filename)) {
+                $file_record['filearea'] = 'feedbacksound';
+                $file_record['filename'] = $filename;
+                $file_record['timecreated'] = time();
+                $file_record['timemodified'] = time();
+                $fs->create_file_from_pathname($file_record, $audiofolder . $filename);
+            }
         }
 
         // turmultiplechoice savepoint reached
