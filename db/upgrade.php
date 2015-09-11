@@ -138,7 +138,8 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
         $sql = "SELECT q.id, qtm.questionsound
                   FROM {question} q
                   JOIN {question_turmultiplechoice} qtm ON qtm.question = q.id
-                 WHERE q.qtype = ?";
+                 WHERE q.qtype = ?
+                   AND qtm.questionsound <> ''";
         $params = array('turmultiplechoice');
         $questions = $DB->get_records_sql($sql, $params);
 
