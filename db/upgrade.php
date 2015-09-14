@@ -175,21 +175,27 @@ function xmldb_qtype_turmultiplechoice_upgrade($oldversion) {
             $file_record['itemid'] = $answer->id;
 
             $filename = substr($answer->answersound, 6);
-            if (file_exists($audiofolder . $filename)) {
-                $file_record['filearea'] = 'answersound';
-                $file_record['filename'] = $filename;
-                $file_record['timecreated'] = time();
-                $file_record['timemodified'] = time();
-                $fs->create_file_from_pathname($file_record, $audiofolder . $filename);
+            if ($filename <> '' &&
+                !is_null($filename) &&
+                substr($filename, 0, 1) != '.' &&
+                file_exists($audiofolder . $filename)) {
+                    $file_record['filearea'] = 'answersound';
+                    $file_record['filename'] = $filename;
+                    $file_record['timecreated'] = time();
+                    $file_record['timemodified'] = time();
+                    $fs->create_file_from_pathname($file_record, $audiofolder . $filename);
             }
 
             $filename = substr($answer->feedbacksound, 6);
-            if (file_exists($audiofolder . $filename)) {
-                $file_record['filearea'] = 'feedbacksound';
-                $file_record['filename'] = $filename;
-                $file_record['timecreated'] = time();
-                $file_record['timemodified'] = time();
-                $fs->create_file_from_pathname($file_record, $audiofolder . $filename);
+            if ($filename <> '' &&
+                !is_null($filename) &&
+                substr($filename, 0, 1) != '.' &&
+                file_exists($audiofolder . $filename)) {
+                    $file_record['filearea'] = 'feedbacksound';
+                    $file_record['filename'] = $filename;
+                    $file_record['timecreated'] = time();
+                    $file_record['timemodified'] = time();
+                    $fs->create_file_from_pathname($file_record, $audiofolder . $filename);
             }
         }
 
