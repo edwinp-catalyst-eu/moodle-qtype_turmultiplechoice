@@ -346,7 +346,7 @@ class qtype_turmultiplechoice_multi_question extends qtype_turmultiplechoice_bas
     public function is_same_response(array $prevresponse, array $newresponse) {
         foreach ($this->order as $key => $notused) {
             $fieldname = $this->field($key);
-            if (!question_utils::arrays_same_at_key($prevresponse, $newresponse, $fieldname)) {
+            if (!question_utils::arrays_same_at_key_integer($prevresponse, $newresponse, $fieldname)) {
                 return false;
             }
         }
@@ -374,7 +374,8 @@ class qtype_turmultiplechoice_multi_question extends qtype_turmultiplechoice_bas
     public function get_num_selected_choices(array $response) {
         $numselected = 0;
         foreach ($response as $key => $value) {
-            if (!empty($value)) {
+            // Response keys starting with _ are internal values like _order, so ignore them.
+            if (!empty($value) && $key[0] != '_') {
                 $numselected += 1;
             }
         }

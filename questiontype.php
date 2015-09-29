@@ -24,9 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+require_once($CFG->libdir . '/questionlib.php');
 
 /**
- * The multiple choice question type.
+ * The TUR multiple choice question type.
  *
  */
 class qtype_turmultiplechoice extends question_type {
@@ -54,22 +56,22 @@ class qtype_turmultiplechoice extends question_type {
         $oldanswers = $DB->get_records('question_answers',
                 array('question' => $question->id), 'id ASC');
 
-        // following hack to check at least two answers exist
+        // Following hack to check at least two answers exist.
         $answercount = 0;
         foreach ($question->answer as $key => $answer) {
             if ($answer != '') {
                 $answercount++;
             }
         }
-        if ($answercount < 2) { // check there are at lest 2 answers for multiple choice
+        if ($answercount < 2) { // Check there are at lest 2 answers for multiple choice
             $result->notice = get_string('notenoughanswers', 'qtype_turmultiplechoice', '2');
             return $result;
         }
 
-        // Insert all the new answers
+        // Insert all the new answers.
         $totalfraction = 0;
         $maxfraction = -1;
-        $answers = array();
+        // $answers = array();
         foreach ($question->answer as $key => $answerdata) {
             if (trim($answerdata['text']) == '') {
                 continue;
@@ -85,7 +87,7 @@ class qtype_turmultiplechoice extends question_type {
                 $answer->id = $DB->insert_record('question_answers', $answer);
             }
 
-            // Doing an import
+            // Doing an import.
             $answer->answer = $this->import_or_save_files($answerdata,
                     $context, 'question', 'answer', $answer->id);
             $answer->answerformat = $answerdata['format'];
@@ -104,7 +106,7 @@ class qtype_turmultiplechoice extends question_type {
                     'question', 'feedbacksound', $answer->id, $this->fileoptions);
 
             $DB->update_record('question_answers', $answer);
-            $answers[] = $answer->id;
+            //$answers[] = $answer->id;
 
             if ($question->fraction[$key] > 0) {
                 $totalfraction += $question->fraction[$key];
@@ -131,7 +133,7 @@ class qtype_turmultiplechoice extends question_type {
             $options->id = $DB->insert_record('qtype_turmultichoice_options', $options);
         }
 
-        $options->answers = implode(',', $answers);
+        //$options->answers = implode(',', $answers);
         $options->single = $question->single;
         if (isset($question->layout)) {
             $options->layout = $question->layout;
@@ -224,9 +226,9 @@ class qtype_turmultiplechoice extends question_type {
             $responses = array();
 
             foreach ($questiondata->options->answers as $aid => $answer) {
-                $responses[$aid] = new question_possible_response(html_to_text(format_text(
-                        $answer->answer, $answer->answerformat, array('noclean' => true)),
-                        0, false), $answer->fraction);
+                $responses[$aid] = new question_possible_response(
+                        question_utils::to_plain_text($answer->answer, $answer->answerformat),
+                        $answer->fraction);
             }
 
             $responses[null] = question_possible_response::no_response();
@@ -235,10 +237,9 @@ class qtype_turmultiplechoice extends question_type {
             $parts = array();
 
             foreach ($questiondata->options->answers as $aid => $answer) {
-                $parts[$aid] = array($aid =>
-                        new question_possible_response(html_to_text(format_text(
-                        $answer->answer, $answer->answerformat, array('noclean' => true)),
-                        0, false), $answer->fraction));
+                $parts[$aid] = array($aid => new question_possible_response(
+                        question_utils::to_plain_text($answer->answer, $answer->answerformat),
+                        $answer->fraction));
             }
 
             return $parts;

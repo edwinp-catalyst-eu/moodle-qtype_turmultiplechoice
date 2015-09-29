@@ -1,4 +1,25 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * TUR Multiple choice question renderer classes.
+ *
+ * @package    qtype
+ * @subpackage turmultiplechoice
+ */
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -60,7 +81,8 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
 
     protected abstract function prompt();
 
-    public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
+    public function formulation_and_controls(question_attempt $qa,
+            question_display_options $options) {
 
         $question = $qa->get_question();
         $response = $question->get_response($qa);
@@ -195,8 +217,17 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
 
         return $result;
     }
+
+    public function specific_feedback(question_attempt $qa) {
+        return $this->combined_feedback($qa);
+    }
 }
 
+/**
+ * Subclass for generating the bits of output specific to TUR multiple choice
+ * single questions.
+ *
+ */
 class qtype_turmultiplechoice_single_renderer extends qtype_turmultiplechoice_renderer_base {
 
     protected function get_input_type() {
@@ -222,8 +253,28 @@ class qtype_turmultiplechoice_single_renderer extends qtype_turmultiplechoice_re
     protected function prompt() {
         return get_string('selectone', 'qtype_turmultiplechoice');
     }
+
+    public function correct_response(question_attempt $qa) {
+        $question = $qa->get_question();
+
+        foreach ($question->answers as $ansid => $ans) {
+            if (question_state::graded_state_for_fraction($ans->fraction) ==
+                    question_state::$gradedright) {
+                return get_string('correctansweris', 'qtype_turmultiplechoice',
+                        $question->make_html_inline($question->format_text($ans->answer, $ans->answerformat,
+                                $qa, 'question', 'answer', $ansid)));
+            }
+        }
+
+        return '';
+    }
 }
 
+/**
+ * Subclass for generating the bits of output specific to TUR multiple choice
+ * multi=select questions.
+ *
+ */
 class qtype_turmultiplechoice_multi_renderer extends qtype_turmultiplechoice_renderer_base {
 
     protected function get_input_type() {
@@ -231,22 +282,53 @@ class qtype_turmultiplechoice_multi_renderer extends qtype_turmultiplechoice_ren
     }
 
     protected function get_input_name(question_attempt $qa, $value) {
-        return $qa->get_qt_field_name('answer');
+        return $qa->get_qt_field_name('choice' . $value);
     }
 
     protected function get_input_value($value) {
-        return $value;
+        return 1;
     }
 
     protected function get_input_id(question_attempt $qa, $value) {
-        return $qa->get_qt_field_name('answer' . $value);
+        return $this->get_input_name($qa, $value);
     }
 
     protected function is_right(question_answer $ans) {
-        return $ans->fraction;
+        if ($ans->fraction > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     protected function prompt() {
         return get_string('selectmultiple', 'qtype_turmultiplechoice');
+    }
+
+    public function correct_response(question_attempt $qa) {
+        $question = $qa->get_question();
+
+        $right = array();
+        foreach ($question->answers as $ansid => $ans) {
+            if ($ans->fraction > 0) {
+                $right[] = $question->make_html_inline($question->format_text($ans->answer, $ans->answerformat,
+                        $qa, 'question', 'answer', $ansid));
+            }
+        }
+
+        if (!empty($right)) {
+                return get_string('correctansweris', 'qtype_turmultiplechoice',
+                        implode(', ', $right));
+        }
+        return '';
+    }
+
+    protected function num_parts_correct(question_attempt $qa) {
+        if ($qa->get_question()->get_num_selected_choices($qa->get_last_qt_data()) >
+                $qa->get_question()->get_num_correct_choices()) {
+            return get_string('toomanyselected', 'qtype_turmultiplechoice');
+        }
+
+        return parent::num_parts_correct($qa);
     }
 }

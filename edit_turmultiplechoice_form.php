@@ -204,7 +204,7 @@ class qtype_turmultiplechoice_edit_form extends question_edit_form {
         $maxfraction = -1;
 
         foreach ($answers as $key => $answer) {
-            //check no of choices
+            // Check no of choices.
             $trimmedanswer = trim($answer['text']);
             $fraction = (float) $data['fraction'][$key];
             if ($trimmedanswer === '' && empty($fraction)) {
@@ -216,7 +216,7 @@ class qtype_turmultiplechoice_edit_form extends question_edit_form {
 
             $answercount++;
 
-            //check grades
+            // Check grades.
             if ($data['fraction'][$key] > 0) {
                 $totalfraction += $data['fraction'][$key];
             }
