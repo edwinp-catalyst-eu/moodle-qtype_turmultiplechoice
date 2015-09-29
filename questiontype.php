@@ -136,6 +136,7 @@ class qtype_turmultiplechoice extends question_type {
         if (isset($question->layout)) {
             $options->layout = $question->layout;
         }
+        $options->autoplay = $question->autoplay;
         $options->qdifficulty = $question->qdifficulty;
         $options->shuffleanswers = $question->shuffleanswers;
         $options = $this->save_combined_feedback_helper($options, $question, $context, true);
@@ -185,6 +186,7 @@ class qtype_turmultiplechoice extends question_type {
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
         $question->shuffleanswers = $questiondata->options->shuffleanswers;
+        $question->autoplay = $questiondata->options->autoplay;
         $question->qdifficulty = $questiondata->options->qdifficulty;
         if (!empty($questiondata->options->layout)) {
             $question->layout = $questiondata->options->layout;

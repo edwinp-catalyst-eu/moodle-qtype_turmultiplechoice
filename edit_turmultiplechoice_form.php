@@ -147,6 +147,7 @@ class qtype_turmultiplechoice_edit_form extends question_edit_form {
         if (!empty($question->options)) {
             $question->single = $question->options->single;
             $question->shuffleanswers = $question->options->shuffleanswers;
+            $question->autoplay = $question->options->autoplay;
             $question->qdifficulty = $question->options->qdifficulty;
         }
 
