@@ -64,7 +64,7 @@ class restore_qtype_turmultiplechoice_plugin extends restore_qtype_plugin {
         $questioncreated = (bool) $this->get_mappingid('question_created', $oldquestionid);
 
         // If the question has been created by restore, we need to create its
-        // question_turmultiplechoice too
+        // qtype_turmultichoice_options too
         if ($questioncreated) {
             // Adjust some columns
             $data->question = $newquestionid;
@@ -79,9 +79,9 @@ class restore_qtype_turmultiplechoice_plugin extends restore_qtype_plugin {
             }
             $data->answers = implode(',', $answersarr);
             // Insert record
-            $newitemid = $DB->insert_record('question_turmultiplechoice', $data);
+            $newitemid = $DB->insert_record('qtype_turmultichoice_options', $data);
             // Create mapping (needed for decoding links)
-            $this->set_mapping('question_turmultiplechoice', $oldid, $newitemid);
+            $this->set_mapping('qtype_turmultichoice_options', $oldid, $newitemid);
         }
     }
 
@@ -159,8 +159,8 @@ class restore_qtype_turmultiplechoice_plugin extends restore_qtype_plugin {
         $contents = array();
 
         $fields = array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback');
-        $contents[] = new restore_decode_content('question_turmultiplechoice',
-                $fields, 'question_turmultiplechoice');
+        $contents[] = new restore_decode_content('qtype_turmultichoice_options',
+                $fields, 'qtype_turmultichoice_options');
 
         return $contents;
     }
