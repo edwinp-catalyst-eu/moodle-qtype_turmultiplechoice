@@ -59,8 +59,8 @@ class restore_qtype_turmultiplechoice_plugin extends restore_qtype_plugin {
         $oldid = $data->id;
 
         // Detect if the question is created or mapped
-        $oldquestionid   = $this->get_old_parentid('question');
-        $newquestionid   = $this->get_new_parentid('question');
+        $oldquestionid   = $this->get_old_parentid('questionid');
+        $newquestionid   = $this->get_new_parentid('questionid');
         $questioncreated = (bool) $this->get_mappingid('question_created', $oldquestionid);
 
         // If the question has been created by restore, we need to create its

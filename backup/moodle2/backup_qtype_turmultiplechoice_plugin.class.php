@@ -59,7 +59,7 @@ class backup_qtype_turmultiplechoice_plugin extends backup_qtype_plugin {
 
         // set source to populate the data
         $turmultiplechoice->set_source_table('qtype_turmultichoice_options',
-                array('question' => backup::VAR_PARENTID));
+                array('questionid' => backup::VAR_PARENTID));
 
         // don't need to annotate ids nor files
 
