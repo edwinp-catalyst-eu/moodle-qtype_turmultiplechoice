@@ -30,14 +30,24 @@ div.turmultiplechoice div.content div.formulation div.ablock div.questionimagedi
     width: 50%;
 }
 
+div.turmultiplechoice div.content div.formulation div.ablock div.questionimagediv div.qtype_turmultiplechoice_imagediv {
+    float: right;
+    margin-bottom: 10px;
+    width: 90%;
+}
+
+div.turmultiplechoice div.content div.formulation div.ablock div.questionimagediv div.qtype_turmultiplechoice_lightboxdiv {
+    clear: both;
+}
+
 div.turmultiplechoice div.content div.formulation div.ablock div.questionimagediv img.questionimage {
     float: right;
-    max-width: 90%;
     border: 1px solid #666;
+    width: 100%;
 }
 
 div.turmultiplechoice div.content div.formulation div.ablock div.questionimagediv img.tur_lightboxicon {
-
+    float: right;
 }
 
 div.turmultiplechoice div.content div.formulation div.ablock div.answer div.r0,
@@ -79,4 +89,9 @@ div.turmultiplechoice div.content div.formulation div.audioplay.playing {
 div.turmultiplechoice div.content div.formulation {
     background-color: #ffffff;
     border-color: #ffffff;
+}
+
+div.turmultiplechoice div.content div.formulation div.ablock div.answer div.correct,
+div.turmultiplechoice div.content div.formulation div.ablock div.answer div.incorrect, {
+    padding: 10px;
 }
