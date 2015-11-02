@@ -83,8 +83,10 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
 
     public function formulation_and_controls(question_attempt $qa,
             question_display_options $options) {
+        global $CFG;
 
         $question = $qa->get_question();
+        $questiontext = $question->format_questiontext($qa);
         $response = $question->get_response($qa);
 
         $inputname = $qa->get_qt_field_name('answer');
@@ -188,10 +190,21 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
         }
         $result .= html_writer::end_tag('div'); // Answer.
 
-        $questionimage = html_writer::empty_tag('img', array(
-            'src' => $this->get_questionimage($question->id, $question->contextid, $qa->get_slot(), $qa->get_usage_id())));
-        $result .= html_writer::div($questionimage, 'questionimage');
-
+        $turmultiplechoicequestionimagesrc = $this->get_questionimage($question->id,
+                $question->contextid, $qa->get_slot(), $qa->get_usage_id());
+        $turmultiplechoicequestionimage = html_writer::empty_tag('img',
+                array('src' => $turmultiplechoicequestionimagesrc, 'class' => 'questionimage'));
+        $turmultiplechoiceimagelink = html_writer::link($turmultiplechoicequestionimagesrc,
+                $turmultiplechoicequestionimage, array(
+                    'data-lightbox' => $questiontext, 'data-title' => $questiontext));
+        $turmultiplechoicequestionimagediv = html_writer::div($turmultiplechoiceimagelink);
+        $lightboxicon = html_writer::img(
+                $CFG->wwwroot . '/question/type/turmultiplechoice/pix/lightboxicon.jpg',
+                $questiontext, array('class' => 'tur_lightboxicon'));
+        $lightboxlink = html_writer::link($turmultiplechoicequestionimagesrc, $lightboxicon,
+                array('data-lightbox' => $questiontext, 'data-title' => $questiontext));
+        $lighboxdiv = html_writer::div($lightboxlink, 'qtype_turprove_lightboxdiv');
+        $result .= html_writer::div($turmultiplechoicequestionimagediv . $lighboxdiv, 'questionimagediv');
         $result .= html_writer::end_tag('div'); // Ablock.
 
         if ($qa->get_state() == question_state::$invalid) {
@@ -229,6 +242,15 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
  *
  */
 class qtype_turmultiplechoice_single_renderer extends qtype_turmultiplechoice_renderer_base {
+
+    public function head_code(question_attempt $qa) {
+        global $CFG;
+
+        $js = new moodle_url($CFG->wwwroot . '/question/type/turmultiplechoice/lightbox/lightbox-plus-jquery.min.js');
+        $this->page->requires->js($js);
+        $stylesheet = new moodle_url($CFG->wwwroot . '/question/type/turmultiplechoice/lightbox/lightbox.css');
+        $this->page->requires->css($stylesheet);
+    }
 
     protected function get_input_type() {
         return 'radio';
@@ -276,6 +298,15 @@ class qtype_turmultiplechoice_single_renderer extends qtype_turmultiplechoice_re
  *
  */
 class qtype_turmultiplechoice_multi_renderer extends qtype_turmultiplechoice_renderer_base {
+
+    public function head_code(question_attempt $qa) {
+        global $CFG;
+
+        $js = new moodle_url($CFG->wwwroot . '/question/type/turmultiplechoice/lightbox/lightbox-plus-jquery.min.js');
+        $this->page->requires->js($js);
+        $stylesheet = new moodle_url($CFG->wwwroot . '/question/type/turmultiplechoice/lightbox/lightbox.css');
+        $this->page->requires->css($stylesheet);
+    }
 
     protected function get_input_type() {
         return 'checkbox';

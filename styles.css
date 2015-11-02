@@ -22,16 +22,22 @@ div.turmultiplechoice div.content div.formulation div.ablock div.prompt {
 
 div.turmultiplechoice div.content div.formulation div.ablock div.answer {
     float: left;
-    width: 30%;
+    width: 50%;
 }
 
-div.turmultiplechoice div.content div.formulation div.ablock div.questionimage {
+div.turmultiplechoice div.content div.formulation div.ablock div.questionimagediv {
     float: right;
-    width: 70%;
+    width: 50%;
 }
 
-div.turmultiplechoice div.content div.formulation div.ablock div.questionimage img {
-    max-width: 100%;
+div.turmultiplechoice div.content div.formulation div.ablock div.questionimagediv img.questionimage {
+    float: right;
+    max-width: 90%;
+    border: 1px solid #666;
+}
+
+div.turmultiplechoice div.content div.formulation div.ablock div.questionimagediv img.tur_lightboxicon {
+
 }
 
 div.turmultiplechoice div.content div.formulation div.ablock div.answer div.r0,
@@ -68,4 +74,9 @@ div.turmultiplechoice div.content div.formulation div.audioplay.playing {
     background-position: left top;
     height: 20px;
     width: 20px;
+}
+
+div.turmultiplechoice div.content div.formulation {
+    background-color: #ffffff;
+    border-color: #ffffff;
 }
