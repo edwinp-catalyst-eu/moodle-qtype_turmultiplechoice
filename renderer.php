@@ -46,6 +46,19 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
         }
     }
 
+    protected function get_answerfeedbacksound(question_answer $ans, $contextid, $slot, $usageid) {
+
+        $fs = get_file_storage();
+        $files = $fs->get_area_files(1, 'question', 'feedbacksound', $ans->id);
+        if ($file = end($files)) {
+            $filename = $file->get_filename();
+            if ($filename != '.') {
+                return moodle_url::make_file_url('/pluginfile.php',
+                        "/1/question/feedbacksound/$usageid/$slot/$ans->id/$filename");
+            }
+        }
+    }
+
     protected function get_questionimage($questionid, $contextid, $slot, $usageid) {
 
         $fs = get_file_storage();
@@ -146,11 +159,24 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
             // avoid refering to it here.
             if ($options->feedback && empty($options->suppresschoicefeedback) &&
                     $isselected && trim($ans->feedback)) {
-                $feedback[] = html_writer::tag('div',
-                        $question->make_html_inline($question->format_text(
-                                $ans->feedback, $ans->feedbackformat,
-                                $qa, 'question', 'answerfeedback', $ansid)),
-                        array('class' => 'specificfeedback'));
+                $feedbackaudiodiv = html_writer::div('', 'tm_feedbackaudio audioplay',
+                    array('data-src' => $this->get_answerfeedbacksound($ans,
+                            $question->contextid, $qa->get_slot(), $qa->get_usage_id())));
+                $feedbacktextdiv = html_writer::div(
+                        $question->make_html_inline(
+                            $question->format_text(
+                                $ans->feedback,
+                                $ans->feedbackformat,
+                                $qa, 'question',
+                                'answerfeedback',
+                                $ansid
+                            )
+                        ), 'tm_feedbacktext');
+                $specificfeedbackdiv = html_writer::div(
+                        $feedbackaudiodiv . $feedbacktextdiv,
+                        'specificfeedback'
+                    );
+                $feedback[] = $specificfeedbackdiv;
             } else {
                 $feedback[] = '';
             }
