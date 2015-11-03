@@ -52,7 +52,7 @@ div.turmultiplechoice div.content div.formulation div.ablock div.questionimagedi
 
 div.turmultiplechoice div.content div.formulation div.ablock div.answer div.r0,
 div.turmultiplechoice div.content div.formulation div.ablock div.answer div.r1 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     min-height: 30px;
 }
 
@@ -67,6 +67,7 @@ div.turmultiplechoice div.content div.formulation div.ablock div.answer div.r1 i
 div.turmultiplechoice div.content div.formulation div.ablock div.answer div.r0 input[type="radio"],
 div.turmultiplechoice div.content div.formulation div.ablock div.answer div.r1 input[type="radio"] {
     float: right;
+    margin-top: 0;
 }
 
 div.turmultiplechoice div.content div.formulation div.audioplay {
@@ -77,6 +78,7 @@ div.turmultiplechoice div.content div.formulation div.audioplay {
     width: 20px;
     margin-top: 2px;
     float: left;
+    margin-right: 5px;
 }
 
 div.turmultiplechoice div.content div.formulation div.audioplay.playing {
@@ -92,6 +94,14 @@ div.turmultiplechoice div.content div.formulation {
 }
 
 div.turmultiplechoice div.content div.formulation div.ablock div.answer div.correct,
-div.turmultiplechoice div.content div.formulation div.ablock div.answer div.incorrect, {
-    padding: 10px;
+div.turmultiplechoice div.content div.formulation div.ablock div.answer div.incorrect {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+div.turmultiplechoice div.content div.formulation .questioncorrectnessicon {
+    clear: both;
+    display: block;
+    float: right;
+    margin: 0 7px;
 }
