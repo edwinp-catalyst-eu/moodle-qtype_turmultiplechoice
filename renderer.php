@@ -222,14 +222,14 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
                 array('src' => $turmultiplechoicequestionimagesrc, 'class' => 'questionimage'));
         $turmultiplechoiceimagelink = html_writer::link($turmultiplechoicequestionimagesrc,
                 $turmultiplechoicequestionimage, array(
-                    'data-lightbox' => $questiontext, 'data-title' => $questiontext));
+                    'data-lightbox' => 'imagelink', 'data-title' => $questiontext));
         $turmultiplechoicequestionimagediv = html_writer::div(
                 $turmultiplechoiceimagelink, 'qtype_turmultiplechoice_imagediv');
         $lightboxicon = html_writer::img(
                 $CFG->wwwroot . '/question/type/turmultiplechoice/pix/lightboxicon.jpg',
                 $questiontext, array('class' => 'tur_lightboxicon'));
         $lightboxlink = html_writer::link($turmultiplechoicequestionimagesrc, $lightboxicon,
-                array('data-lightbox' => $questiontext, 'data-title' => $questiontext));
+                array('data-lightbox' => 'iconlink', 'data-title' => $questiontext));
         $lighboxdiv = html_writer::div($lightboxlink, 'qtype_turmultiplechoice_lightboxdiv');
         $result .= html_writer::div($turmultiplechoicequestionimagediv . $lighboxdiv, 'questionimagediv');
         $result .= html_writer::end_tag('div'); // Ablock.
