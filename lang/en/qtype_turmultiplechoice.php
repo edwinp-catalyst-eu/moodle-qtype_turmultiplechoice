@@ -81,3 +81,7 @@ $string['shuffleanswers_help'] = 'If enabled, the order of the answers is random
 $string['singleanswer'] = 'Choose one answer.';
 $string['toomanyselected'] = 'You have selected too many options.';
 
+// Navigation
+$string['menu'] = 'Menu';
+$string['tilbage'] = '« Tilbage';
+$string['frem'] = 'Frem »';
