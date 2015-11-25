@@ -108,7 +108,7 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
 
     public function formulation_and_controls(question_attempt $qa,
             question_display_options $options) {
-        global $CFG, $OUTPUT;
+        global $CFG, $OUTPUT, $DB;
 
         $question = $qa->get_question();
         $questiontext = $question->format_questiontext($qa);
@@ -246,8 +246,8 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
         $result .= html_writer::div($turmultiplechoicequestionimagediv . $lighboxdiv, 'questionimagediv');
         $result .= html_writer::end_tag('div'); // Ablock.
 
-        $attemptid = $options->editquestionparams['returnurl']->get_param('attempt');
-        $pageid    = $options->editquestionparams['returnurl']->get_param('page');
+        $attemptid = $DB->get_field('quiz_attempts', 'id', array('uniqueid' => $qa->get_usage_id()));
+        $pageid = (int) $qa->get_slot() - 1;
 
         // Menu button
         $menuurl = ($options->readonly) ? new moodle_url($CFG->wwwroot . '/mod/quiz/view.php',
