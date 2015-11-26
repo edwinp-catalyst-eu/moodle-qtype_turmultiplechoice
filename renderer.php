@@ -257,10 +257,8 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
         } else {
             $menuurl = new moodle_url($CFG->wwwroot . '/mod/quiz/summary.php', array('attempt' => $attemptid));
         }
-
-        $menubutton = html_writer::empty_tag('input',
-                array('type' => 'button', 'value' => get_string('menu', 'qtype_turmultiplechoice')));
-        $link = html_writer::link($menuurl, $menubutton, array('id' => 'tf_menubutton'));
+        $link = html_writer::link($menuurl, get_string('menu', 'qtype_turmultiplechoice'),
+                array('id' => 'tf_menubutton', 'class' => 'tf_button'));
         $result .= html_writer::div($link, 'singlebutton turforlag');
 
         $result .= html_writer::start_div('tf_prevnextquestion');
@@ -270,33 +268,30 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
             if ($options->readonly) {
                 $previousurl = new moodle_url($CFG->wwwroot . '/mod/quiz/review.php',
                         array('attempt' => $attemptid, 'page' => $pageid - 1));
-                $previousbutton = html_writer::empty_tag('input',
-                        array('type' => 'button', 'value' => get_string('tilbage', 'qtype_turmultiplechoice')));
-                $link = html_writer::link($previousurl, $previousbutton, array('id' => 'tf_nextbutton'));
+                $link = html_writer::link($previousurl, get_string('tilbage', 'qtype_turmultiplechoice'),
+                        array('id' => 'tf_previousbutton', 'class' => 'tf_button'));
                 $result .= html_writer::div($link, 'singlebutton');
             } else {
                 $previousurl = new moodle_url($CFG->wwwroot . '/mod/quiz/attempt.php',
                         array('attempt' => $attemptid, 'page' => $pageid - 1));
-                $previousbutton = html_writer::empty_tag('input',
-                        array('type' => 'button', 'value' => get_string('tilbage', 'qtype_turmultiplechoice')));
-                $link = html_writer::link($previousurl, $previousbutton, array('id' => 'tf_previousbutton'));
+                $link = html_writer::link($previousurl, get_string('tilbage', 'qtype_turmultiplechoice'),
+                        array('id' => 'tf_previousbutton',  'class' => 'tf_button'));
                 $result .= html_writer::div($link, 'singlebutton');
             }
         }
 
         // Next button
-        if ($pageid + 1 != $this->get_questions_total($options->editquestionparams['cmid'])) {
-            if ($options->readonly) {
+        if ($options->readonly) {
+            if ($pageid + 1 != $this->get_questions_total($options->context->instanceid)) {
                 $nexturl = new moodle_url($CFG->wwwroot . '/mod/quiz/review.php',
                         array('attempt' => $attemptid, 'page' => $pageid + 1));
-                $nextbutton = html_writer::empty_tag('input',
-                        array('type' => 'button', 'value' => get_string('frem', 'qtype_turmultiplechoice')));
-                $link = html_writer::link($nexturl, $nextbutton, array('id' => 'tf_nextbutton'));
+                $link = html_writer::link($nexturl, get_string('frem', 'qtype_turprove'),
+                        array('id' => 'tf_nextbutton', 'class' => 'tf_button'));
                 $result .= html_writer::div($link, 'singlebutton');
-            } else {
-                $result .=  html_writer::empty_tag('input',
-                        array('type' => 'submit', 'value' => get_string('frem', 'qtype_turmultiplechoice'), 'name' => 'next'));
             }
+        } else {
+            $result .=  html_writer::empty_tag('input',
+                    array('type' => 'submit', 'value' => get_string('frem', 'qtype_turmultiplechoice'), 'name' => 'next'));
         }
 
         $result .= html_writer::end_div(); // tf_prevnextquestion
