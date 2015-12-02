@@ -40,10 +40,11 @@ body.path-mod-quiz div.turmultiplechoice div.info {
     display: none;
 }
 
+/*
 body#page-mod-quiz-review div#mod_quiz_navblock {
     display: none;
 }
-
+*/
 body.path-mod-quiz div.turmultiplechoice div.formulation {
     padding: 8px 5px 8px 5px;
 }
