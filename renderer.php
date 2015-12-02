@@ -268,13 +268,13 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
             if ($options->readonly) {
                 $previousurl = new moodle_url($CFG->wwwroot . '/mod/quiz/review.php',
                         array('attempt' => $attemptid, 'page' => $pageid - 1));
-                $link = html_writer::link($previousurl, get_string('tilbage', 'qtype_turmultiplechoice'),
+                $link = html_writer::link($previousurl, get_string('back', 'qtype_turmultiplechoice'),
                         array('id' => 'tf_previousbutton', 'class' => 'tf_button'));
                 $result .= html_writer::div($link, 'singlebutton');
             } else {
                 $previousurl = new moodle_url($CFG->wwwroot . '/mod/quiz/attempt.php',
                         array('attempt' => $attemptid, 'page' => $pageid - 1));
-                $link = html_writer::link($previousurl, get_string('tilbage', 'qtype_turmultiplechoice'),
+                $link = html_writer::link($previousurl, get_string('back', 'qtype_turmultiplechoice'),
                         array('id' => 'tf_previousbutton',  'class' => 'tf_button'));
                 $result .= html_writer::div($link, 'singlebutton');
             }
@@ -285,13 +285,13 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
             if ($pageid + 1 != $this->get_questions_total($options->context->instanceid)) {
                 $nexturl = new moodle_url($CFG->wwwroot . '/mod/quiz/review.php',
                         array('attempt' => $attemptid, 'page' => $pageid + 1));
-                $link = html_writer::link($nexturl, get_string('frem', 'qtype_turprove'),
+                $link = html_writer::link($nexturl, get_string('forward', 'qtype_turmultiplechoice'),
                         array('id' => 'tf_nextbutton', 'class' => 'tf_button'));
                 $result .= html_writer::div($link, 'singlebutton');
             }
         } else {
             $result .=  html_writer::empty_tag('input',
-                    array('type' => 'submit', 'value' => get_string('frem', 'qtype_turmultiplechoice'), 'name' => 'next'));
+                    array('type' => 'submit', 'value' => get_string('forward', 'qtype_turmultiplechoice'), 'name' => 'next'));
         }
 
         $result .= html_writer::end_div(); // tf_prevnextquestion
