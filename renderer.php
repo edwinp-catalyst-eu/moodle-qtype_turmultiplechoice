@@ -307,7 +307,7 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
                     array(
                         '#q' . $qa->get_slot(),
                         $options->readonly,
-                        $question->autoplay
+                        ($options->feedback == 1) ? false : $question->autoplay
                     ),
                     false,
                     array(
