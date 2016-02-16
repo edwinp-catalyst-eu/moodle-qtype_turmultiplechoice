@@ -26,6 +26,10 @@ M.qtype_turmultiplechoice = M.qtype_turmultiplechoice || {};
 
 M.qtype_turmultiplechoice.init = function (Y, questiondiv, quiet, autoplay) {
 
+    if (!$(document.body).hasClass('turmultiplechoice')) {
+        $(document.body).addClass('turmultiplechoice');
+    }
+
     var initialplaythroughcomplete = false;
     var current = 0;
     var audio = $('#audiodiv');
