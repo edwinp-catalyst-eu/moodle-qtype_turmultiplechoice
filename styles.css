@@ -210,7 +210,7 @@ a.arrow_link {
     display: none;
 }
 
-input[name='next'] {
+#page-mod-quiz-attempt.turmultiplechoice input[name='next'] {
     display: none !important;
 }
 
