@@ -210,6 +210,10 @@ a.arrow_link {
     display: none;
 }
 
+body.turmultiplechoice .submitbtns input[name='next'] {
+   display: none !important;
+}
+
 .submitbtns a {
     display: none;
 }
