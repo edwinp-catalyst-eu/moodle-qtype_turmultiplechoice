@@ -217,11 +217,22 @@ class qtype_turmultiplechoice_single_question extends qtype_turmultiplechoice_ba
     }
 
     public function grade_response(array $response) {
-        if (array_key_exists('answer', $response) &&
-                array_key_exists($response['answer'], $this->order)) {
-            $fraction = $this->answers[$this->order[$response['answer']]]->fraction;
-        } else {
-            $fraction = 0;
+		return $this->grade_response_no_partial_mark($response); 
+    }
+	
+	protected function grade_response_no_partial_mark(array $response) {
+        $fraction = 1;
+        foreach ($this->order as $key => $ansid) {
+            $iscorrect = ($this->answers[$ansid]->fraction > 0);
+            // correct choice should appear in response
+            if ($iscorrect and empty($response[$this->field($key)])) {
+                $fraction = 0;
+                break;
+            // incorrect shouldn't appear in response
+            } else if (!$iscorrect and !empty($response[$this->field($key)])) {
+                $fraction = 0;
+                break;
+            }
         }
         return array($fraction, question_state::graded_state_for_fraction($fraction));
     }
@@ -396,13 +407,23 @@ class qtype_turmultiplechoice_multi_question extends qtype_turmultiplechoice_bas
     }
 
     public function grade_response(array $response) {
-        $fraction = 0;
+		return $this->grade_response_no_partial_mark($response);
+    }
+	
+	protected function grade_response_no_partial_mark(array $response) {
+        $fraction = 1;
         foreach ($this->order as $key => $ansid) {
-            if (!empty($response[$this->field($key)])) {
-                $fraction += $this->answers[$ansid]->fraction;
+            $iscorrect = ($this->answers[$ansid]->fraction > 0);
+            // correct choice should appear in response
+            if ($iscorrect and empty($response[$this->field($key)])) {
+                $fraction = 0;
+                break;
+            // incorrect shouldn't appear in response
+            } else if (!$iscorrect and !empty($response[$this->field($key)])) {
+                $fraction = 0;
+                break;
             }
         }
-        $fraction = min(max(0, $fraction), 1.0);
         return array($fraction, question_state::graded_state_for_fraction($fraction));
     }
 

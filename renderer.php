@@ -123,6 +123,8 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
         if ($options->readonly) {
             $inputattributes['disabled'] = 'disabled';
         }
+		
+		
 
         $radiobuttons = array();
         $feedbackimg = array();
@@ -203,6 +205,11 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
         }
 
         $result = '';
+		
+		$questioninfo = new stdClass();
+        $questioninfo->questionnumber = $qa->get_slot();
+        $questioninfo->questionstotal = $this->get_questions_total($options->context->instanceid);
+		$result .= html_writer::div(get_string('questionxofy', 'qtype_turprove', $questioninfo), 'turprove_leftcolumn_quiz_info');
 
         $questionsoundurl = $this->get_questionsound($question->id,
                 $question->contextid, $qa->get_slot(), $qa->get_usage_id());
