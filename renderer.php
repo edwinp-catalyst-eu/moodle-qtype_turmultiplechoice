@@ -106,8 +106,7 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
 
     protected abstract function prompt();
 
-    public function formulation_and_controls(question_attempt $qa,
-            question_display_options $options) {
+    public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
         global $CFG, $OUTPUT, $DB;
 
         $question = $qa->get_question();
@@ -130,8 +129,10 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
         $feedbackimg = array();
         $feedback = array();
         $classes = array();
+		
         foreach ($question->get_order($qa) as $value => $ansid) {
             $ans = $question->answers[$ansid];
+			
             $inputattributes['name'] = $this->get_input_name($qa, $value);
             $inputattributes['value'] = $this->get_input_value($value);
             $inputattributes['id'] = $this->get_input_id($qa, $value);
@@ -144,7 +145,7 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
 
             $answersound = ($answersoundurl = $this->get_answersound($ans,
                     $question->contextid, $qa->get_slot(), $qa->get_usage_id())) ?
-                        html_writer::div('', 'audioplay', array('data-src' => $answersoundurl)) : '';
+                        html_writer::div('', 'audioplay audiomargin', array('data-src' => $answersoundurl)) : '';
 
             $hidden = '';
             if (!$options->readonly && $this->get_input_type() == 'checkbox') {
@@ -154,11 +155,12 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
                     'value' => 0,
                 ));
             }
+
             $radiobuttons[] = $answersound . $hidden .
                     html_writer::tag('label',
                         $question->make_html_inline(
                                         $question->format_text(
-                                            $ans->answer,
+                                           '<b>'.($value+1). '. </b> ' . $ans->answer,
                                             $ans->answerformat,
                                             $qa,
                                             'question',
@@ -205,40 +207,39 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
         }
 
         $result = '';
-		
+		$result .= html_writer::start_div('', array('id' => 'turmc_leftcolumn'));
 		$questioninfo = new stdClass();
         $questioninfo->questionnumber = $qa->get_slot();
         $questioninfo->questionstotal = $this->get_questions_total($options->context->instanceid);
 		$result .= html_writer::div(get_string('questionxofy', 'qtype_turprove', $questioninfo), 'turprove_leftcolumn_quiz_info');
 
-        $questionsoundurl = $this->get_questionsound($question->id,
-                $question->contextid, $qa->get_slot(), $qa->get_usage_id());
-        $audiosource = html_writer::tag('source', '',
-                array('type' => 'audio/mpeg', 'src' => $questionsoundurl));
+        $questionsoundurl = $this->get_questionsound($question->id, $question->contextid, $qa->get_slot(), $qa->get_usage_id());
+        $audiosource = html_writer::tag('source', '', array('type' => 'audio/mpeg', 'src' => $questionsoundurl));
         $audiosource .= 'Your browser does not support the audio tag.'; // TODO: Lang string
-        $audioelement = html_writer::tag('audio', $audiosource,
-                array('id' => 'audiodiv'));
+        $audioelement = html_writer::tag('audio', $audiosource, array('id' => 'audiodiv'));
         $result .= $audioelement;
 
-        $result .= html_writer::div('', 'audioplay',
-                array('data-src' => $questionsoundurl));
-        $result .= html_writer::tag('div', $question->format_questiontext($qa),
-                array('class' => 'qtext'));
+        $result .= html_writer::div('', 'audioplay', array('data-src' => $questionsoundurl));
+        $result .= html_writer::tag('div', $question->format_questiontext($qa), array('class' => 'qtext'));
 
         $result .= html_writer::start_tag('div', array('class' => 'ablock'));
-        $result .= html_writer::tag('div', $this->prompt(), array('class' => 'prompt'));
+        $result .= html_writer::tag('div', $this->prompt(), array('class' => 'prompt goRight'));
 
         $result .= html_writer::start_tag('div', array('class' => 'answer'));
         foreach ($radiobuttons as $key => $radio) {
-            $result .= html_writer::tag('div', $radio . ' ' . $feedbackimg[$key] . $feedback[$key],
-                    array('class' => $classes[$key])) . "\n";
+            $result .= html_writer::tag('div', $radio . ' ' . $feedbackimg[$key] . $feedback[$key], array('class' => $classes[$key] . ' turmc_answer_wrapper')) . "\n";
         }
         $result .= html_writer::end_tag('div'); // Answer.
+	    $result .= html_writer::end_div(); // #turmc_leftcolumn
+		$result .= html_writer::end_div();
+		 
+		 
+		$result .= html_writer::start_div('', array('id' => 'turmc_rightcolumn'));
 
         $turmultiplechoicequestionimagesrc = $this->get_questionimage($question->id,
                 $question->contextid, $qa->get_slot(), $qa->get_usage_id());
         $turmultiplechoicequestionimage = html_writer::empty_tag('img',
-                array('src' => $turmultiplechoicequestionimagesrc, 'class' => 'questionimage'));
+                array('src' => $turmultiplechoicequestionimagesrc, 'class' => 'questionimage', 'style' => 'width:100%'));
         $turmultiplechoiceimagelink = html_writer::link($turmultiplechoicequestionimagesrc,
                 $turmultiplechoicequestionimage, array(
                     'data-lightbox' => 'imagelink', 'data-title' => $questiontext));
@@ -252,6 +253,7 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
         $lighboxdiv = html_writer::div($lightboxlink, 'qtype_turmultiplechoice_lightboxdiv');
         $result .= html_writer::div($turmultiplechoicequestionimagediv . $lighboxdiv, 'questionimagediv');
         $result .= html_writer::end_tag('div'); // Ablock.
+		  $result .= html_writer::end_div(); // #turmc_rightcolumn
 
         $attemptid = $DB->get_field('quiz_attempts', 'id', array('uniqueid' => $qa->get_usage_id()));
         $pageid = (int) $qa->get_slot() - 1;

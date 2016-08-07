@@ -11,6 +11,18 @@ body.path-mod-quiz #region-main {
     width: 100%;
 }
 
+#turmc_leftcolumn {
+    width: 40%;
+	float:left;
+	overflow:hidden;
+	max-height:50%;
+	padding-right:5px;
+}
+#turmc_rightcolumn {
+    width: 59%;
+	overflow:hidden;
+}
+
 #page-mod-quiz-review #mod_quiz_navblock {
     position: relative;
     top: -120px;
@@ -29,8 +41,18 @@ body#page-mod-quiz-summary div#mod_quiz_navblock {
     display: none;
 }
 
+.turprove_leftcolumn_quiz_info {
+    background-color: #e0f0ff;
+    color: #666666;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding: 5px;
+	text-align: left !important;
+}
+
 body.path-mod-quiz div.turmultiplechoice .ablock > .answer {
-    width: 40%;
+    width: 90%;
 }
 
 body.path-mod-quiz div.turmultiplechoice .ablock > .questionimagediv {
@@ -38,7 +60,7 @@ body.path-mod-quiz div.turmultiplechoice .ablock > .questionimagediv {
 }
 
 body.path-mod-quiz div.turmultiplechoice .content {
-    margin: 2em 0 0 0;
+    margin: 0.5em 0 0 0;
 }
 
 .turprove_leftcolumn_quiz_info{
@@ -56,7 +78,7 @@ body#page-mod-quiz-review div#mod_quiz_navblock {
 }
 */
 body.path-mod-quiz div.turmultiplechoice div.formulation {
-    padding: 8px 5px 8px 5px;
+   /*  padding: 8px 5px 8px 5px; */
 }
 
 
@@ -88,10 +110,12 @@ div.turmultiplechoice div.content div.formulation div.ablock div.prompt {
     min-height: 30px;
 }
 
-div.turmultiplechoice div.content div.formulation div.ablock div.answer {
-    float: left;
-    width: 50%;
+.turmc_answer_wrapper {
+    border-top: 2px solid #c5d5c4;
+    margin-left: 30px;
+	padding-top: 10px;
 }
+
 
 div.turmultiplechoice div.content div.formulation div.ablock div.questionimagediv {
     float: right;
@@ -100,7 +124,6 @@ div.turmultiplechoice div.content div.formulation div.ablock div.questionimagedi
 
 div.turmultiplechoice div.content div.formulation div.ablock div.questionimagediv div.qtype_turmultiplechoice_imagediv {
     float: right;
-    margin-bottom: 10px;
     width: 90%;
 }
 
@@ -120,7 +143,7 @@ div.turmultiplechoice div.content div.formulation div.ablock div.questionimagedi
 
 div.turmultiplechoice div.content div.formulation div.ablock div.answer div.r0,
 div.turmultiplechoice div.content div.formulation div.ablock div.answer div.r1 {
-    margin-bottom: 10px;
+ 
     min-height: 30px;
 }
 
@@ -139,7 +162,7 @@ div.turmultiplechoice div.content div.formulation div.ablock div.answer div.r1 i
 }
 
 div.turmultiplechoice div.content div.formulation div.audioplay {
-    background-image: url('/question/type/turmultiplechoice/pix/icon_play.png');
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowNDgwMTE3NDA3MjA2ODExQkJFMkI2NDJDM0MyRDkxMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBQkQ5NDQzRjVDMDcxMUUxQTg1OUY4QTk1MTU2RDAwRiIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBQkQ5NDQzRTVDMDcxMUUxQTg1OUY4QTk1MTU2RDAwRiIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjA0ODAxMTc0MDcyMDY4MTFCQkUyQjY0MkMzQzJEOTExIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjA0ODAxMTc0MDcyMDY4MTFCQkUyQjY0MkMzQzJEOTExIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+3yFX7QAAAE5QTFRFnb6dytvKaJpofah9+/z7/v/+wNXA7/TvvdO9s82zoMCgxdjFrcit1+XXm7ybrsmu8vfyzt7OYJVgj7WP/P38aZpp+/37ZZllZplm////dCOqRAAAABp0Uk5T/////////////////////////////////wAUIgDaAAAAVklEQVR42mKQhAEOZhEYkwHG4JRgYkETFOOSEBcVQxUUEJZAEeRhAAJmCVRBCRgYEEFeRiDgQxOEUPzYBCXZmLAISgqKC7FgCEqyc7NiCiIBCgUBAgwASqokToYypz4AAAAASUVORK5CYII=');
     background-position: left top;
     cursor: pointer;
     height: 20px;
@@ -147,13 +170,18 @@ div.turmultiplechoice div.content div.formulation div.audioplay {
     margin-top: 2px;
     float: left;
     margin-right: 5px;
+	
 }
 
 div.turmultiplechoice div.content div.formulation div.audioplay.playing {
-    background-image: url('/question/type/turmultiplechoice/pix/icon_pause.png');
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowNDgwMTE3NDA3MjA2ODExQkJFMkI2NDJDM0MyRDkxMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBQkQ5NDQzQjVDMDcxMUUxQTg1OUY4QTk1MTU2RDAwRiIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBQkQ5NDQzQTVDMDcxMUUxQTg1OUY4QTk1MTU2RDAwRiIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjA0ODAxMTc0MDcyMDY4MTFCQkUyQjY0MkMzQzJEOTExIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjA0ODAxMTc0MDcyMDY4MTFCQkUyQjY0MkMzQzJEOTExIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Z2XgqgAAAQ5QTFRFaptqytvKYJVgnb6dapxq9Pf0aJpo+/z7ydvJvtO+oMCgfah9m7ybaZtpzt7OYpdirsmuqMWo/f79uNC4+/37xdjF9Pj0rcmtzd3Nzd7Nt9C35u/mlLiU/v7+wNXAssuyyNrIs82z+vz68vfyp8Sn9vn26/HrvdO93une3endXpRekraSi7KLZ5pnssyypMKkpsSmjLKMx9nHxtnGbZ5t+Pr4bJ1s7/Tvts+25O3k1+XXcqFy6PDoeKV4dqR26/Lr4evhmLuYZ5ln3OjcpcOlt8+3fql+4+zj/v/+u9G7w9fDj7WPY5dj+Pv4jbON4OrgfKd8////rMes7vTu1+TXrcit/P38ZZllZplm////TKrmPwAAAFp0Uk5T//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8A0daKbwAAANJJREFUeNpiiIQBde4wEMXlGhnJABNTjGBjj4wMjBTkd4AJinBFhDMAVaoIytrpQAWVvSMggsI+GowRmgyhzEDAHQEUZAmTMogMMBQx0WeIgIFwFiEvJlbOCDEZWyRBhjAxJmObCGeLCBTBSN4g1ggJIzRBXQHWCElRVMFgJj73CH95JxSLhPmV9Nh8/dwYrBiBgAfiJA5OdmtHU15xqI8EoI53YVLzjJCG+V2ODSyowKFqxoMIEL5wJnYQra1ljxCMNBf1AFEhlkhBhwwoFAQIMAA5WW13BA66xwAAAABJRU5ErkJggg==');
     background-position: left top;
     height: 20px;
     width: 20px;
+}
+
+.audiomargin{
+	margin-left: -30px;
 }
 
 div.turmultiplechoice div.content div.formulation {
@@ -165,7 +193,6 @@ div.turmultiplechoice div.content div.formulation div.ablock div.answer div.corr
 div.turmultiplechoice div.content div.formulation div.ablock div.answer div.incorrect {
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-left: 10px;
 }
 
 div.turmultiplechoice div.content div.formulation .questioncorrectnessicon {
@@ -187,7 +214,17 @@ div.turmultiplechoice div.content div.formulation .questioncorrectnessicon {
     padding-right: 10px;
 }
 
-div.turmultiplechoice div.content div.formulation .im-controls {
+.goRight{
+	text-align:right;
+	padding-right: 11%;
+}
+
+input[type="checkbox"]{
+	width: 17px !important;
+	height: 17px !important;
+}
+
+.im-controls {
     clear: both;
     float: left;
     position: relative;
@@ -218,6 +255,11 @@ div.tf_prevnextquestion input[name='next'] {
 
 a.arrow_link {
     display: none;
+}
+
+.que .formulation, .que .outcome, .que
+.comment {
+	padding: 0 0 0 0 !important;;
 }
 
 body.turmultiplechoice .submitbtns input[name='next'] {
