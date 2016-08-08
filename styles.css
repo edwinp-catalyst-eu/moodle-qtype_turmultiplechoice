@@ -46,6 +46,7 @@ body#page-mod-quiz-summary div#mod_quiz_navblock {
     color: #666666;
     font-size: 0.8em;
     font-weight: bold;
+	width: 90%;
     margin-bottom: 20px;
     padding: 5px;
 	text-align: left !important;
@@ -62,11 +63,6 @@ body.path-mod-quiz div.turmultiplechoice .ablock > .questionimagediv {
 body.path-mod-quiz div.turmultiplechoice .content {
     margin: 0.5em 0 0 0;
 }
-
-.turprove_leftcolumn_quiz_info{
-	 text-align: center;
-}
-
 
 body.path-mod-quiz div.turmultiplechoice div.info {
     display: none;
