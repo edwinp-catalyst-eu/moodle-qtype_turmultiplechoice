@@ -46,14 +46,14 @@ body#page-mod-quiz-summary div#mod_quiz_navblock {
     color: #666666;
     font-size: 0.8em;
     font-weight: bold;
-	width: 90%;
+	width: 95%;
     margin-bottom: 20px;
     padding: 5px;
 	text-align: left !important;
 }
 
 body.path-mod-quiz div.turmultiplechoice .ablock > .answer {
-    width: 90%;
+    width: 95%;
 }
 
 body.path-mod-quiz div.turmultiplechoice .ablock > .questionimagediv {
@@ -61,7 +61,7 @@ body.path-mod-quiz div.turmultiplechoice .ablock > .questionimagediv {
 }
 
 body.path-mod-quiz div.turmultiplechoice .content {
-    margin: 0.5em 0 0 0;
+    margin: 0 0 0 0;
 }
 
 body.path-mod-quiz div.turmultiplechoice div.info {
@@ -74,7 +74,7 @@ body#page-mod-quiz-review div#mod_quiz_navblock {
 }
 */
 body.path-mod-quiz div.turmultiplechoice div.formulation {
-   /*  padding: 8px 5px 8px 5px; */
+     padding: 8px 0px 8px 0px; 
 }
 
 
@@ -100,6 +100,7 @@ div.turmultiplechoice div.content div.formulation:after {
 div.turmultiplechoice div.content div.formulation div.qtext {
     color: #363;
     font-weight: bold;
+	width: 95%;
 }
 
 div.turmultiplechoice div.content div.formulation div.ablock div.prompt {
@@ -120,7 +121,7 @@ div.turmultiplechoice div.content div.formulation div.ablock div.questionimagedi
 
 div.turmultiplechoice div.content div.formulation div.ablock div.questionimagediv div.qtype_turmultiplechoice_imagediv {
     float: right;
-    width: 90%;
+    width: 95%;
 }
 
 div.turmultiplechoice div.content div.formulation div.ablock div.questionimagediv div.qtype_turmultiplechoice_lightboxdiv {
@@ -212,7 +213,11 @@ div.turmultiplechoice div.content div.formulation .questioncorrectnessicon {
 
 .goRight{
 	text-align:right;
-	padding-right: 11%;
+	padding-right: 6%;
+}
+
+span{
+	font-weight:bold;
 }
 
 input[type="checkbox"]{
@@ -222,7 +227,7 @@ input[type="checkbox"]{
 
 .im-controls {
     clear: both;
-    float: left;
+    display: inline-block;
     position: relative;
     top: -53px;
 }
@@ -238,6 +243,14 @@ div.tf_prevnextquestion {
     width: 200px;
 }
 
+.outcome{
+	margin-top: 20px;
+}
+
+div.turmultiplechoice div.content .que .im-controls{
+	margin-top: 0px !important;
+}
+
 div.tf_prevnextquestion .singlebutton {
     float: left;
     margin-top: 20px;
@@ -251,11 +264,6 @@ div.tf_prevnextquestion input[name='next'] {
 
 a.arrow_link {
     display: none;
-}
-
-.que .formulation, .que .outcome, .que
-.comment {
-	padding: 0 0 0 0 !important;;
 }
 
 body.turmultiplechoice .submitbtns input[name='next'] {

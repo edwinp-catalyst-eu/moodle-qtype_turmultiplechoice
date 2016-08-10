@@ -155,12 +155,12 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
                     'value' => 0,
                 ));
             }
-
-            $radiobuttons[] = $answersound . $hidden .
+			$ordinalspan = html_writer::span($value + 1 . '. ');
+            $radiobuttons[] = $answersound . $hidden . $ordinalspan .
                     html_writer::tag('label',
                         $question->make_html_inline(
                                         $question->format_text(
-                                           '<b>'.($value+1). '. </b> ' . $ans->answer,
+                                            $ans->answer,
                                             $ans->answerformat,
                                             $qa,
                                             'question',
@@ -253,10 +253,11 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
         $lighboxdiv = html_writer::div($lightboxlink, 'qtype_turmultiplechoice_lightboxdiv');
         $result .= html_writer::div($turmultiplechoicequestionimagediv . $lighboxdiv, 'questionimagediv');
         $result .= html_writer::end_tag('div'); // Ablock.
-		  $result .= html_writer::end_div(); // #turmc_rightcolumn
+
 
         $attemptid = $DB->get_field('quiz_attempts', 'id', array('uniqueid' => $qa->get_usage_id()));
         $pageid = (int) $qa->get_slot() - 1;
+
 
         // Menu button
         if ($options->readonly) {
@@ -295,14 +296,14 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
                 $nexturl = new moodle_url($CFG->wwwroot . '/mod/quiz/review.php',
                         array('attempt' => $attemptid, 'page' => $pageid + 1));
                 $link = html_writer::link($nexturl, get_string('forward', 'qtype_turmultiplechoice'),
-                        array('id' => 'tf_nextbutton', 'class' => 'tf_button'));
+                        array('id' => 'tf_nextbutton', 'class' => 'tf_button submit'));
                 $result .= html_writer::div($link, 'singlebutton');
             }
         } else {
             $result .=  html_writer::empty_tag('input',
                     array('type' => 'submit', 'value' => get_string('forward', 'qtype_turmultiplechoice'), 'name' => 'next'));
         }
-
+		$result .= html_writer::end_div(); // #turmc_rightcolumn
         $result .= html_writer::end_div(); // tf_prevnextquestion
 
         if ($qa->get_state() == question_state::$invalid) {
