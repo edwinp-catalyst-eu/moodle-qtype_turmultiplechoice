@@ -225,11 +225,21 @@ class qtype_turmultiplechoice_single_question extends qtype_turmultiplechoice_ba
         foreach ($this->order as $key => $ansid) {
             $iscorrect = ($this->answers[$ansid]->fraction > 0);
             // correct choice should appear in response
-            if ($iscorrect and empty($response[$this->field($key)])) {
+			if ($this->field == null){
+				if ($iscorrect){
+					$fraction = 0;break;
+				}else{
+					$fraction = 1; break;
+				}
+			}
+
+            if ($iscorrect && empty($response[$this->field($key)])) {
                 $fraction = 0;
                 break;
-            // incorrect shouldn't appear in response
-            } else if (!$iscorrect and !empty($response[$this->field($key)])) {
+            } 
+			
+			// incorrect shouldn't appear in response
+			else if (!$iscorrect && !empty($response[$this->field($key)])) {
                 $fraction = 0;
                 break;
             }

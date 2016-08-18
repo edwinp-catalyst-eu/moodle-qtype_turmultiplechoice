@@ -155,7 +155,7 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
                     'value' => 0,
                 ));
             }
-			$ordinalspan = html_writer::span($value + 1 . '. ');
+			$ordinalspan = html_writer::span($value + 1 . '. ', 'questionNumber');
             $radiobuttons[] = $answersound . $hidden . $ordinalspan .
                     html_writer::tag('label',
                         $question->make_html_inline(
