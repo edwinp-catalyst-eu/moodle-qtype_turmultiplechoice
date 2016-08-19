@@ -222,27 +222,15 @@ class qtype_turmultiplechoice_single_question extends qtype_turmultiplechoice_ba
 	
 	protected function grade_response_no_partial_mark(array $response) {
         $fraction = 1;
+		$answered = (int)$response["answer"];
         foreach ($this->order as $key => $ansid) {
-            $iscorrect = ($this->answers[$ansid]->fraction > 0);
-            // correct choice should appear in response
-			if ($this->field == null){
-				if ($iscorrect){
-					$fraction = 1;break;
-				}else{
-					$fraction = 0; break;
-				}
-			}
-
-            if ($iscorrect && empty($response[$this->field($key)])) {
-                $fraction = 0;
-                break;
-            } 
 			
-			// incorrect shouldn't appear in response
-			else if (!$iscorrect && !empty($response[$this->field($key)])) {
-                $fraction = 0;
-                break;
-            }
+			$iscorrect = ($this->answers[$this->order[$answered]]->fraction > 0);
+			if ($iscorrect) {
+				$fraction = 1;break;
+			}else {
+				$fraction = 0; break;
+			}
         }
         return array($fraction, question_state::graded_state_for_fraction($fraction));
     }
