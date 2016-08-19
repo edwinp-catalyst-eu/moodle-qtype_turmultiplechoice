@@ -105,6 +105,7 @@ div.turmultiplechoice div.content div.formulation div.qtext {
 }
 .questionNumber{
 	float:left;
+	padding-right: 3px;
 }
 
 div.turmultiplechoice div.content div.formulation div.ablock div.prompt {

@@ -227,9 +227,9 @@ class qtype_turmultiplechoice_single_question extends qtype_turmultiplechoice_ba
             // correct choice should appear in response
 			if ($this->field == null){
 				if ($iscorrect){
-					$fraction = 0;break;
+					$fraction = 1;break;
 				}else{
-					$fraction = 1; break;
+					$fraction = 0; break;
 				}
 			}
 
