@@ -156,12 +156,13 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
                 ));
             }
 			$ordinalspan = html_writer::span($value + 1 . '. ', 'questionNumber');
+            $strip = strip_tags($ans->answer); // Strip HTML Tags from question answers
             $radiobuttons[] = $answersound . $hidden . $ordinalspan .
                     html_writer::tag('label',
                         $question->make_html_inline(
                                         $question->format_text(
-                                            $ans->answer,
-                                            $ans->answerformat,
+                                            $strip,
+                                            null,
                                             $qa,
                                             'question',
                                             'answer',
@@ -169,7 +170,6 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
                                         )
                                     ),
                     array('for' => $inputattributes['id'])) . html_writer::empty_tag('input', $inputattributes);
-
             // Param $options->suppresschoicefeedback is a hack specific to the
             // oumultiresponse question type. It would be good to refactor to
             // avoid refering to it here.
