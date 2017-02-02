@@ -1,18 +1,3 @@
-// This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
  * JavaScript required by the turmultiplechoice question type.
  *
@@ -29,45 +14,107 @@ M.qtype_turmultiplechoice.init = function (Y, questiondiv, quiet, autoplay) {
     if (!$(document.body).hasClass('turmultiplechoice')) {
         $(document.body).addClass('turmultiplechoice');
     }
-
+	
+	vFact_AllowHighLight = false;
+	vFact_HighLightColor = '';
+	vFact_SentenceColor = '';
+	vFact_HighlightMode = null;
+	
+	var playing;
+	var isPlaying;
     var initialplaythroughcomplete = false;
     var current = 0;
     var audio = $('#audiodiv');
     var playlist = $(questiondiv);
     var tracks = playlist.find('.content .formulation .audioplay');
+	
+	
+	setTimeout(function() {
+		vFact_HTML5Player.setEventHandler_OnChangePlaylistStatus(test); 
+		function test(newPlaylistStatus) {
+			 if (newPlaylistStatus == 1){
+				 playing.addClass('playing');
+				 isPlaying = true;
+			 } else if (newPlaylistStatus == 0){
+				 playing.removeClass('playing');
+				  isPlaying = false;
+				 nextQuestion();
+			 }
+		 }
+	 }, 1500);
+	
     if (!quiet && autoplay == 1) {
         var playing = $(playlist.find('.audioplay')[current]);
-        playing.addClass('playing');
-        audio[0].play();
+		if (playing.data('src') == undefined){
+			setTimeout(function() {
+				playing.addClass('playing');
+				vFact_playsectionEXT('qtext');
+   			}, 2000);
+		} else {
+			playing.addClass('playing');
+			audio[0].play();
+		}
     }
-    audio[0].addEventListener('ended',function(e){
-        $('.audioplay').removeClass('playing');
+	
+	function nextQuestion(){
+		$('.audioplay').removeClass('playing');
         if (current != tracks.length - 1 && !initialplaythroughcomplete) {
             setTimeout(function() {
                 current++;
                 playing = $(playlist.find('.audioplay')[current]);
-                playing.addClass('playing');
-                audio[0].src = $(playlist.find('.audioplay')[current]).attr('data-src');
-                audio[0].load();
-                audio[0].play();
-            }, 1000);
+				if (playing.data('src') == undefined){
+					vFact_playsection(playing.data('qid'));
+				} else {
+					playing.addClass('playing');
+					audio[0].src = $(playlist.find('.audioplay')[current]).attr('data-src');
+					audio[0].load();
+					audio[0].play();
+				}
+            }, 1100);
         } else {
             initialplaythroughcomplete = true;
         }
+	}
+	
+    audio[0].addEventListener('ended',function(e){
+		nextQuestion();
     });
 
     $('.audioplay').click(function(e) {
-        initialplaythroughcomplete = true;
+		$('*').removeClass('playing');
+		initialplaythroughcomplete = true;
+		
+		if (isPlaying){
+			vFact_dostop();	
+			isPlaying = false;
+			return;
+		}
+
         if ($(this).hasClass('playing')) {
             audio.trigger('pause');
             $(this).removeClass('playing');
         } else {
             audio.trigger('pause');
+			$(this).removeClass('playing');
             $('.audioplay').removeClass('playing');
-            audio[0].src = $(this).data('src');
-            audio[0].load();
-            audio[0].play();
-            $(this).addClass('playing');
+			
+			if ($(this).data('src') == undefined) {
+				var questionId = $(this).attr("data-qid");
+				if (questionId == '0'){
+					playing = $(this);
+					vFact_playsectionEXT('qtext');
+				} else {
+					playing = $(this);
+					  setTimeout(function() {
+						vFact_playsection(questionId);
+					  }, 550);
+				}
+			} else {
+				audio[0].src = $(this).data('src');
+				audio[0].load();
+				audio[0].play();
+				$(this).addClass('playing');
+			}
         }
     });
 };

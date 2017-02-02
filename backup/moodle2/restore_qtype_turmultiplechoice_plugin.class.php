@@ -59,22 +59,29 @@ class restore_qtype_turmultiplechoice_plugin extends restore_qtype_plugin {
         $oldid = $data->id;
 
         // Detect if the question is created or mapped
-        $oldquestionid   = $this->get_old_parentid('question');
-        $newquestionid   = $this->get_new_parentid('question');
+        $oldquestionid   = $this->get_old_parentid('questionid');
+        $newquestionid   = $this->get_new_parentid('questionid');
         $questioncreated = (bool) $this->get_mappingid('question_created', $oldquestionid);
 
         // If the question has been created by restore, we need to create its
         // qtype_turmultichoice_options too
         if ($questioncreated) {
             // Adjust some columns
-            $data->questionid = $newquestionid;
-
-            // It is possible for old backup files to contain unique key violations.
-            // We need to check to avoid that.
-            if (!$DB->record_exists('qtype_turmultichoice_options', array('questionid' => $data->questionid))) {
-                $newitemid = $DB->insert_record('qtype_turmultichoice_options', $data);
-                $this->set_mapping('qtype_turmultichoice_options', $oldid, $newitemid);
+            $data->question = $newquestionid;
+            // Map sequence of question_answer ids
+            if ($data->answers) {
+                $answersarr = explode(',', $data->answers);
+            } else {
+                $answersarr = array();
             }
+            foreach ($answersarr as $key => $answer) {
+                $answersarr[$key] = $this->get_mappingid('question_answer', $answer);
+            }
+            $data->answers = implode(',', $answersarr);
+            // Insert record
+            $newitemid = $DB->insert_record('qtype_turmultichoice_options', $data);
+            // Create mapping (needed for decoding links)
+            $this->set_mapping('qtype_turmultichoice_options', $oldid, $newitemid);
         }
     }
 

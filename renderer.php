@@ -143,9 +143,9 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
                 unset($inputattributes['checked']);
             }
 
-            $answersound = ($answersoundurl = $this->get_answersound($ans,
-                    $question->contextid, $qa->get_slot(), $qa->get_usage_id())) ?
-                        html_writer::div('', 'audioplay audiomargin', array('data-src' => $answersoundurl)) : '';
+            $answersound = $answersoundurl = $this->get_answersound($ans, $question->contextid, $qa->get_slot(), $qa->get_usage_id());
+            $turproveansweraudiodiv = html_writer::div('', 'audioplay pullleft',array('data-qid' => $ansid, 'data-src' => $this->get_answersound($ans, $question->contextid, $qa->get_slot(), $qa->get_usage_id())));
+			html_writer::div('', 'audioplay audiomargin', array('data-qid' => $ansid, 'data-src' => $answersoundurl));
 
             $hidden = '';
             if (!$options->readonly && $this->get_input_type() == 'checkbox') {
@@ -157,7 +157,7 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
             }
 			$ordinalspan = html_writer::span($value + 1 . '. ', 'questionNumber');
             $strip = strip_tags($ans->answer); // Strip HTML Tags from question answers
-            $radiobuttons[] = $answersound . $hidden . $ordinalspan .
+            $radiobuttons[] = $turproveansweraudiodiv . $hidden . $ordinalspan .
                     html_writer::tag('label',
                         $question->make_html_inline(
                                         $question->format_text(
@@ -169,7 +169,7 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
                                             $ansid
                                         )
                                     ),
-                    array('for' => $inputattributes['id'])) . html_writer::empty_tag('input', $inputattributes);
+                    array('id' => $ansid,'for' => $inputattributes['id'])) . html_writer::empty_tag('input', $inputattributes);
             // Param $options->suppresschoicefeedback is a hack specific to the
             // oumultiresponse question type. It would be good to refactor to
             // avoid refering to it here.
@@ -215,12 +215,11 @@ abstract class qtype_turmultiplechoice_renderer_base extends qtype_with_combined
 
         $questionsoundurl = $this->get_questionsound($question->id, $question->contextid, $qa->get_slot(), $qa->get_usage_id());
         $audiosource = html_writer::tag('source', '', array('type' => 'audio/mpeg', 'src' => $questionsoundurl));
-        $audiosource .= 'Your browser does not support the audio tag.'; // TODO: Lang string
-        $audioelement = html_writer::tag('audio', $audiosource, array('id' => 'audiodiv'));
+        $audioelement = html_writer::tag('audio', '', array('id' => 'audiodiv'));
         $result .= $audioelement;
 
-        $result .= html_writer::div('', 'audioplay', array('data-src' => $questionsoundurl));
-        $result .= html_writer::tag('div', $question->format_questiontext($qa), array('class' => 'qtext'));
+        $result .= html_writer::div('', 'audioplay', array('data-qid' => '0', 'data-src' => $questionsoundurl));
+        $result .= html_writer::tag('div', $question->format_questiontext($qa), array('id' => 'qtext', 'class' => 'qtext'));
 
         $result .= html_writer::start_tag('div', array('class' => 'ablock'));
         $result .= html_writer::tag('div', $this->prompt(), array('class' => 'prompt goRight'));
@@ -346,6 +345,8 @@ class qtype_turmultiplechoice_single_renderer extends qtype_turmultiplechoice_re
         global $CFG;
 
         $js = new moodle_url($CFG->wwwroot . '/question/type/turmultiplechoice/lightbox/lightbox-plus-jquery.min.js');
+		$speech = new moodle_url('http://speech.leseweb.dk/script/gylir66fj7slp2kkvx9v.js');
+		$this->page->requires->js($speech);
         $this->page->requires->js($js);
         $stylesheet = new moodle_url($CFG->wwwroot . '/question/type/turmultiplechoice/lightbox/lightbox.css');
         $this->page->requires->css($stylesheet);
@@ -403,6 +404,8 @@ class qtype_turmultiplechoice_multi_renderer extends qtype_turmultiplechoice_ren
 
         $js = new moodle_url($CFG->wwwroot . '/question/type/turmultiplechoice/lightbox/lightbox-plus-jquery.min.js');
         $this->page->requires->js($js);
+				$speech = new moodle_url('http://speech.leseweb.dk/script/gylir66fj7slp2kkvx9v.js');
+		$this->page->requires->js($speech);
         $stylesheet = new moodle_url($CFG->wwwroot . '/question/type/turmultiplechoice/lightbox/lightbox.css');
         $this->page->requires->css($stylesheet);
     }

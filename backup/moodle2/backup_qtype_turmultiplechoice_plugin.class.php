@@ -61,29 +61,8 @@ class backup_qtype_turmultiplechoice_plugin extends backup_qtype_plugin {
         $turmultiplechoice->set_source_table('qtype_turmultichoice_options',
                 array('questionid' => backup::VAR_PARENTID));
 
-        // Annotate files
-        $turmultiplechoice->annotate_files('question', 'answersound', null);
-        $turmultiplechoice->annotate_files('question', 'feedbacksound', null);
-        $turmultiplechoice->annotate_files('question', 'questionimage', null);
-        $turmultiplechoice->annotate_files('question', 'questionsound', null);
+        // don't need to annotate ids nor files
 
         return $plugin;
-    }
-
-    /**
-     * Returns one array with filearea => mappingname elements for the qtype
-     *
-     * Used by {@link get_components_and_fileareas} to know about all the qtype
-     * files to be processed both in backup and restore.
-     */
-    public static function get_qtype_fileareas() {
-        return array(
-            'questionimage' => 'question_created',
-            'questionsound' => 'question_created',
-            'answer' => 'question_created',
-            'answersound' => 'question_created',
-            'feedback' => 'question_created',
-            'feedbacksound' => 'question_created',
-        );
     }
 }

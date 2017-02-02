@@ -100,7 +100,7 @@ div.turmultiplechoice div.content div.formulation:after {
 div.turmultiplechoice div.content div.formulation div.qtext {
     color: #363;
     font-weight: bold;
-	width: 95%;
+	width: 90%;
 	padding-left: 25px;
 }
 .questionNumber{
@@ -173,6 +173,10 @@ div.turmultiplechoice div.content div.formulation div.audioplay {
     float: left;
     margin-right: 5px;
 	
+}
+
+.pullleft{
+	margin-left: -30px;
 }
 
 div.turmultiplechoice div.content div.formulation div.audioplay.playing {
